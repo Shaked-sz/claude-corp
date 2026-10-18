@@ -1,0 +1,12 @@
+{
+  "name": "claude-corp",
+  "owner": { "name": "marvisilsss" },
+  "description": "claude-corp: an AI development organization run by a manager agent.",
+  "plugins": [
+    {
+      "name": "corp",
+      "source": "./plugins/corp",
+      "description": "A manager agent that runs specialist AI dev teams with junior/normal/senior levels."
+    }
+  ]
+}

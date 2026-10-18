@@ -1,0 +1,8 @@
+{
+  "name": "corp",
+  "version": "0.1.0",
+  "description": "An AI development organization: a manager agent staffs specialist teams (architecture, security, design/UX, planning, development, QA, talent) with junior/normal/senior levels, routes work between them, and verifies every result.",
+  "author": { "name": "marvisilsss" },
+  "license": "MIT",
+  "keywords": ["manager", "orchestration", "teams", "multi-agent", "swarm"]
+}
