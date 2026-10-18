@@ -6,7 +6,7 @@ A Claude Code plugin that turns Claude into the manager of an AI development org
 
 | Team | Agent | Does |
 |---|---|---|
-| Manager | `corp:manager` / `/corp:manage` | Sizes, staffs, routes, verifies, and is the only one who talks to you |
+| Manager | `/corp:manage` | Sizes, staffs, routes, verifies, and is the only one who talks to you |
 | Architecture | `corp:architecture-lead` | Design, contracts, schema, ADRs |
 | Security | `corp:security-lead` | Threat models, design and diff review, privacy, supply chain, vetting new skills |
 | Design / UX | `corp:design-lead` + `/corp:design-studio` | Visual design and UX. Live co-design with you happens in a separate session |
