@@ -35,6 +35,7 @@ Say the size and the staffing in one line before starting. Spawning costs tokens
 - **Leads plan, so leads run on Sonnet or Opus, never Haiku.** Pass `model: "opus"` (the default, and preferred for planning, architecture, threat models, hard bugs) or `model: "sonnet"` (light or medium scoped work) when dispatching `corp:<team>-lead`.
 - **Leads staff their own swarms** of `corp:scout` and `corp:builder` workers at Haiku (junior, mechanical work) or Sonnet (normal). Workers never plan.
 - Independent leads go out **in the same message** so they run in parallel. Dependent ones wait for their inputs.
+- A lead report that says its workers are "still running" is incomplete. Send the lead a follow-up (SendMessage) asking it to wait for its workers and send its final report. Don't build on a partial report.
 
 ## 3. Route (see routing.md for the full matrix)
 Heavy flow:

@@ -25,7 +25,8 @@ Write your team's plan yourself. Then decide: do it yourself (small and tightly 
 
 - Workers never plan. Never send a worker a task that needs a decision.
 - One builder per set of files. Two builders never touch the same file.
-- Independent workers go out in the same message, so they run in parallel. Dependent work waits.
+- **Dispatch workers with `run_in_background: false`.** Your report is final: once you return, nobody is left to receive your workers' results. Independent workers go out as several Agent calls in the same message. They still run in parallel, and you wait for all of them. Dependent work waits.
+- **Never report while a worker is still running.** "My scouts are still running" is not a report. Wait, verify, then report.
 - Cap your swarm at about 4 parallel workers. Beyond that, integrating their results becomes the bottleneck.
 - Spawning costs: a worker starts cold. Don't dispatch for something you can do in a few tool calls.
 

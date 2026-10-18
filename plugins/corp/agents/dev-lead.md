@@ -15,7 +15,8 @@ Ship the plan. Assign task specs to builders, integrate their work, and hand QA 
 
 ## How you run it
 - **Assign by ownership.** One builder per task's file set. Never put two builders on one file.
-- **Pick the level per task:**
+- **Follow the plan's levels.** When Planning marks a task junior or normal, dispatch a builder at that level (haiku or sonnet). Don't write it yourself on Opus, since that's the expensive way to run the team. Do it yourself only when the task is marked senior, or is a few lines.
+- **Pick the level per task** (when the plan doesn't):
   - **Haiku builders:** renames, boilerplate, config, mechanical tests.
   - **Sonnet builders:** real features and bug fixes.
   - **Yourself:** tricky integration, root-cause debugging, anything the plan marks senior.
