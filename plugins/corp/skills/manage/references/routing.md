@@ -14,7 +14,7 @@ The teams don't know each other's fields. The manager does, and routes according
 | All approved outputs ready | Architecture + Security + Design → **Planning** | One integrated plan, nothing dropped |
 | Plan approved | Planning → **Development** | Builders execute task specs |
 | Development reports done | Development → **QA** and **Security** (parallel) | Independent correctness + security diff review |
-| QA blockers or security critical/high | QA / Security → **Development** | Fix loop, then re-review only what changed |
+| QA blockers or security critical/high | QA / Security → **Development** | Fix loop, then re-review only what changed. At most 3 rounds, then the user decides (manage step 3.7) |
 | A lead reports `missing skill:` | → **Talent** | Find a replacement |
 | Talent finalists | Talent → **Security** → user | Vet before anyone may install |
 
@@ -36,7 +36,7 @@ The change touches any of these:
 
 | Can run in parallel | Must run in sequence |
 |---|---|
-| Design studio exploring directions while Architecture drafts, then reconcile both before Planning | Architecture → Security → Planning |
+| Design studio exploring directions while Architecture drafts. The chosen design is checked against approved Architecture + Security before Planning | Architecture → Security → Planning |
 | QA + Security diff review | Planning → Development |
 | Talent search, any time (it touches nothing) | Contract change → re-brief → resume |
 | Development tracks with disjoint files | |

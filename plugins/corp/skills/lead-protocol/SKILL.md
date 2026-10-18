@@ -19,9 +19,11 @@ Write your team's plan yourself. Then decide: do it yourself (small and tightly 
 
 | Level | Agent + model | Give it |
 |---|---|---|
-| Junior | `corp:scout` or `corp:builder` with `model: "haiku"` | Mechanical work: search, inventory, renames, boilerplate tests, summarizing |
-| Normal | `corp:scout` or `corp:builder` with `model: "sonnet"` | Real implementation, careful review, non-trivial research |
+| Junior | a worker with `model: "haiku"` | Mechanical work: search, inventory, renames, boilerplate tests, summarizing |
+| Normal | a worker with `model: "sonnet"` | Real implementation, careful review, non-trivial research |
 | Senior | yourself | Design decisions, plans, judgment calls, integrating results |
+
+Workers: `corp:scout` reads and traces code and runs existing tests (no web). `corp:web-scout` researches the web (no shell). `corp:builder` edits its assigned files. Which of them you may dispatch is in your `tools` line, and the corp guard hook enforces it. A `corp guard:` denial means the request belongs to another team or to the manager. Report it; don't try to work around it.
 
 - Workers never plan. Never send a worker a task that needs a decision.
 - One builder per set of files. Two builders never touch the same file.
@@ -45,18 +47,20 @@ A worker's "done" is a claim. Read the diff, rerun the check, spot-check citatio
 ## 6. Cross-team needs go through the manager
 You never dispatch another team. If your work needs Security, Architecture, Design, or anyone else, put it under `NEEDS FROM OTHER TEAMS` in your report and the manager routes it. If a shared contract must change, stop and report it. Don't change it.
 
-## 7. Update the board
-If `.corp/board.md` exists, update only your team's section: status line, decisions, outputs (file paths). Leave everything else alone.
+## 7. The board is read-only for you
+Read `.corp/board.md` but never edit it. Other leads run in parallel, and only the manager writes the board, so nothing is lost. Put your section's new content in the `BOARD UPDATE:` field of your report, and the manager applies it.
 
 ## 8. Report to the manager (exactly this shape)
+Every key starts its own line, in this order, spelled exactly like this. Use the literal word `none` for an empty field. A report in any other shape gets sent back.
 ```
 TEAM: <name>   STATUS: done | partial | blocked
 OUTPUT: <deliverables, with file paths>
 DECISIONS: <decisions made, one line each, with the reason>
 VERIFIED: <how you checked it>
-NEEDS FROM OTHER TEAMS: <team: what, or "none">
-NEEDS FROM USER: <decision or approval, or "none">
-RISKS / GAPS: <or "none">
+NEEDS FROM OTHER TEAMS: <team: what, or none>
+NEEDS FROM USER: <decision or approval, or none>
+RISKS / GAPS: <or none>
+BOARD UPDATE: <your team section's new Status line and outputs, or none>
 ```
 
 ## Skills

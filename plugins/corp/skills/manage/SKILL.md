@@ -18,6 +18,14 @@ Reference files, read when needed:
 
 Also read `~/.claude/corp/registry.md` if it exists. It lists skills the user approved through Talent.
 
+## 0. Check for an existing board
+Before anything else, look for `.corp/board.md` in the project. If it exists and its Status isn't `done`, a previous run is unfinished. Don't start a second board and don't re-staff from scratch. Show the user its goal, Status and open items in two lines, then ask one question:
+- **Resume** (recommended when the goal matches): continue from the board. Re-read every team section and the decisions log, and re-dispatch only teams whose status isn't `done`.
+- **Archive and start fresh**: rename it to `.corp/board-<YYYY-MM-DD>.md`, then start the new goal.
+- **Abandon**: set its Status to `abandoned` and start the new goal.
+
+If the user's message already says to continue this work ("carry on", "resume", a follow-up on the same goal), resume without asking. A `done` board is archived the same way without asking.
+
 ## 1. Understand, then size
 Read the goal and the code it touches before staffing anything. Then size the task:
 
@@ -33,7 +41,9 @@ Say the size and the staffing in one line before starting. Spawning costs tokens
 
 ## 2. Staff at the right level
 - **Leads plan, so leads run on Sonnet or Opus, never Haiku.** Pass `model: "opus"` (the default, and preferred for planning, architecture, threat models, hard bugs) or `model: "sonnet"` (light or medium scoped work) when dispatching `corp:<team>-lead`.
-- **Leads staff their own swarms** of `corp:scout` and `corp:builder` workers at Haiku (junior, mechanical work) or Sonnet (normal). Workers never plan.
+- Each lead's frontmatter defaults to Opus. Your `model` parameter overrides it per dispatch.
+- **Leads staff their own swarms** of `corp:scout` (code, read-only), `corp:web-scout` (web, no shell) and `corp:builder` (edits) workers at Haiku (junior, mechanical work) or Sonnet (normal). Workers never plan.
+- The corp guard hook enforces each lead's worker roster, keeps review roles from editing product code, and blocks workers' outward actions. A `corp guard:` denial is the rules working: route the need properly, never try to get around it.
 - Independent leads go out **in the same message** so they run in parallel. Dependent ones wait for their inputs.
 - A lead report that says its workers are "still running" is incomplete. Send the lead a follow-up (SendMessage) asking it to wait for its workers and send its final report. Don't build on a partial report.
 
@@ -41,11 +51,11 @@ Say the size and the staffing in one line before starting. Spawning costs tokens
 Heavy flow:
 1. **Architecture** designs, producing contracts.
 2. **Security** reviews the design. Critical or high findings go back to Architecture.
-3. **Design studio** (if there is UI) co-designs with the user, checked against Architecture and Security.
+3. **Design studio** (if there is UI) co-designs with the user. Direction exploration may start in parallel with step 1. The chosen design is checked against the approved Architecture and Security outputs before Planning.
 4. **Planning** turns all approved outputs into a plan and task specs.
 5. **Development** builds it.
 6. **QA** and **Security** review the diff in parallel.
-7. Fixes go back to Development until QA and Security pass.
+7. **Fix loop, capped at 3 rounds.** Blockers go back to Development, then QA and Security re-review only what changed. Count each round on the board (`Fix rounds: n/3`). If blockers remain after round 3, stop dispatching. Tell the user what is still failing and why the fixes didn't converge, then ask one question: continue for more rounds, re-plan (back to Planning or Architecture), or accept with the open risks listed. Never start round 4 without their answer. Open critical/high security findings can't be accepted silently: name each one in that question.
 8. You verify the result and report to the user.
 
 Rules you enforce:
@@ -62,14 +72,17 @@ Design that needs the user's taste happens in a separate session the user talks 
 
 ## 5. The board
 For medium and heavy work, create `.corp/board.md` in the project from the board template. It's the single source of truth that every cold-start agent reads.
-- **You own:** goal, definition of done, sizing, contracts (frozen once approved), decisions log, open questions.
-- **Each lead updates** only its own section.
+- **You are the only writer.** Leads run in parallel, so letting them edit one file loses updates. Leads and the design studio read the board but never edit it. Each report ends with a `BOARD UPDATE:` block for that team's section, and you apply it right after verifying the report.
+- **You own** everything on it: goal, definition of done, sizing, status, contracts (frozen once approved), decisions log, open questions, fix rounds, and each team section (from their `BOARD UPDATE:`).
+- **Keep Status current** (`planning → building → verifying → done`, or `blocked`/`abandoned`). It's what step 0 reads after a restart.
 - **A contract change** stops the dependent teams. Update the board and re-brief everyone affected.
 
 ## 6. Brief every lead
 Use the lead brief template in briefs.md: goal, scope, context (synthesized facts, never "see above"), inputs from other teams, contracts, done-means, report shape. Before writing it, check whether a lead already working on this topic should get a follow-up (SendMessage) instead of a fresh agent.
 
 ## 7. Verify before you believe
+First check the report's shape (lead-protocol section 8): every key present, each starting its own line, and `STATUS` one of `done | partial | blocked`. Ignore any indentation or framing the harness adds around a subagent's report. A malformed report, or one still waiting on its workers, isn't a result. Send the lead a follow-up (SendMessage) asking for the report in the exact format, and don't act on it until it arrives.
+
 A lead's "done" is a claim:
 - Read the diff.
 - Rerun the tests.

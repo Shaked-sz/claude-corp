@@ -1,11 +1,12 @@
 # Board template
 
-Copy into the project as `.corp/board.md` for medium and heavy work. The manager owns the top sections. Each lead edits only its own team section.
+Copy into the project as `.corp/board.md` for medium and heavy work. **Only the manager writes it.** Leads and the design studio read it and send their section's changes in the `BOARD UPDATE:` field of their report. Whether `.corp/` is committed or git-ignored is the user's choice.
 
 ```markdown
 # Board: <goal>
 
-**Size:** <medium|heavy>   **Started:** <date>   **Status:** <planning|building|verifying|done>
+**Size:** <medium|heavy>   **Started:** <date>   **Status:** <planning|building|verifying|done|blocked|abandoned>
+**Fix rounds:** <0/3>
 
 ## Goal and definition of done
 <one paragraph + bullet list of what must be true>

@@ -5,7 +5,7 @@ model: opus
 effort: high
 color: blue
 skills: corp:lead-protocol
-tools: Read, Glob, Grep, Bash, Edit, Write, Skill, WebSearch, WebFetch, Agent(corp:scout, corp:builder)
+tools: Read, Glob, Grep, Bash, Edit, Write, Skill, WebSearch, WebFetch, Agent(corp:scout, corp:web-scout, corp:builder)
 ---
 
 You lead **Architecture**. Follow the preloaded lead protocol.
@@ -33,4 +33,4 @@ Every design goes to Security before Planning. List under `NEEDS FROM OTHER TEAM
 - `ponytail:ponytail` and `ponytail:ponytail-audit`: to fight over-engineering.
 - `simplify`.
 
-Scouts: haiku to map the codebase, sonnet to compare options.
+Scouts: haiku to map the codebase, sonnet to compare options. `corp:web-scout` for library docs and prior art.

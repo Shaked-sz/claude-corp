@@ -41,16 +41,17 @@ When the user approves a direction, write `docs/design/<topic>.md` with:
 - Screens and states.
 - Accessibility notes.
 
-If the board exists, update its Design section. Then give the manager the lead-protocol report:
+Don't edit the board yourself. The manager is its only writer. Put the Design section's new content in `BOARD UPDATE:` and give the manager the lead-protocol report:
 
 ```
 TEAM: Design   STATUS: done | partial | blocked
 OUTPUT: <paths, artifact links>
 DECISIONS: <direction chosen by the user + key choices>
 VERIFIED: <user approval, accessibility pass>
-NEEDS FROM OTHER TEAMS: <Architecture/Security items>
+NEEDS FROM OTHER TEAMS: <Architecture/Security items, or none>
 NEEDS FROM USER: none
-RISKS / GAPS: <or "none">
+RISKS / GAPS: <or none>
+BOARD UPDATE: <Design section: Status, studio closed, chosen direction, doc path>
 ```
 
 If you're running as a separate session started by the manager, send this report back to that session (for example with SendMessage to the session that started you), and tell the user it was sent.
