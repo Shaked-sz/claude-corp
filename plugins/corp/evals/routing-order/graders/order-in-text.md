@@ -1,5 +1,5 @@
 ---
 type: regex
-pattern: 'architecture[\s\S]*security[\s\S]*planning[\s\S]*develop'
+pattern: 'architect[\s\S]*security[\s\S]*plan[\s\S]*(develop|dev\b|build|implement)'
 flags: i
 ---

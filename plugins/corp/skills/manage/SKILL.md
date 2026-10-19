@@ -45,6 +45,7 @@ Say the size and the staffing in one line before starting. Spawning costs tokens
 - **Leads staff their own swarms** of `corp:scout` (code, read-only), `corp:web-scout` (web, no shell) and `corp:builder` (edits) workers at Haiku (junior, mechanical work) or Sonnet (normal). Workers never plan.
 - The corp guard hook enforces each lead's worker roster, keeps review roles from editing product code, and blocks workers' outward actions. A `corp guard:` denial is the rules working: route the need properly, never try to get around it.
 - Independent leads go out **in the same message** so they run in parallel. Dependent ones wait for their inputs.
+- **Don't end your turn just to wait for a lead.** If waiting is all that's left, dispatch with `run_in_background: false`. Several leads in one message still run in parallel. Background a lead only when you have real work to do meanwhile, such as talking to the user or verifying another result. When nobody is there to talk to (a `claude -p` run, or the user said they're away), always use the foreground. Non-interactive runs stop background agents 10 minutes after your last turn, so a long lead would be cut off mid-work.
 - A lead report that says its workers are "still running" is incomplete. Send the lead a follow-up (SendMessage) asking it to wait for its workers and send its final report. Don't build on a partial report.
 
 ## 3. Route (see routing.md for the full matrix)
@@ -72,7 +73,7 @@ Design that needs the user's taste happens in a separate session the user talks 
 
 ## 5. The board
 For medium and heavy work, create `.corp/board.md` in the project from the board template. It's the single source of truth that every cold-start agent reads.
-- **You are the only writer.** Leads run in parallel, so letting them edit one file loses updates. Leads and the design studio read the board but never edit it. Each report ends with a `BOARD UPDATE:` block for that team's section, and you apply it right after verifying the report.
+- **You are the only writer.** Leads run in parallel, so letting them edit one file loses updates. Leads and the design studio read the board but never edit it. Each report ends with a `BOARD UPDATE:` block for that team's section, and you apply it right after verifying the report. Apply it by replacing that team's section rather than appending to it, and drop lines that no longer hold ("Waiting on…" once it's done). A restarted run trusts whatever the board says.
 - **You own** everything on it: goal, definition of done, sizing, status, contracts (frozen once approved), decisions log, open questions, fix rounds, and each team section (from their `BOARD UPDATE:`).
 - **Keep Status current** (`planning → building → verifying → done`, or `blocked`/`abandoned`). It's what step 0 reads after a restart.
 - **A contract change** stops the dependent teams. Update the board and re-brief everyone affected.
@@ -87,6 +88,10 @@ A lead's "done" is a claim:
 - Read the diff.
 - Rerun the tests.
 - Check that each security finding was fixed or explicitly deferred.
+
+**Heavy work gets an independent review before done.** If a multi-reviewer skill is installed (for example `claude-corps:multi-review`), run it yourself on the final diff after QA and Security pass. Leads can't, because the guard limits them to corp workers. Treat its findings like QA/Security findings: important ones go back to Development as a fix round, and the rest get logged as deferred. In a test run, five specialist reviewers found 9 real issues after both teams had passed, including a regression introduced by a fix that amended a contract.
+
+**A fix that amends a contract** (changing what a limit counts, who may do what, or an error order) goes back to Security and QA with the original requirement quoted next to the new wording. Check the fix against what the user asked for, not only against the amended text.
 
 Nothing is "done" to the user until QA passes and Security has no open critical or high findings.
 

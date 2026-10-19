@@ -24,6 +24,13 @@ Hardening release. No new teams; the existing org is now bounded, resumable and 
 - `talent-lead` no longer has Bash.
 - Design/Architecture ordering is now stated the same way in `manage` and `routing.md`.
 
+### Fixed after an end-to-end run
+A heavy multi-tenant SaaS build on a scratch app exercised every team, across three sessions and two crash-resumes.
+- **The manager stopped ending its turn just to wait for leads.** In `claude -p` the CLI stops background agents 10 minutes after the last turn, which cut off Planning and then QA. Leads now go out in the foreground unless the manager has real work to do meanwhile. The README covers `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0` for headless runs.
+- **The guard now denies a lead dispatching workers in the background.** The lead protocol already forbade it, and QA did it anyway.
+- **QA, Security and scouts may write throwaway files in the OS temp folder.** These are probe scripts and mutation-testing copies. Project files stay off limits. This removes a false denial that blocked QA's mutation testing. Scouts get the Write tool so the guard can see the path, instead of scouts writing through shell redirects.
+- **The manager replaces a team's board section on each update instead of appending,** so stale "Waiting on…" lines don't mislead a resumed run.
+
 ### Known limits
 - The guard is a regex screen, not a shell parser. Unusual command forms can slip through, and the prose rules remain the second line.
 - If the hook itself crashes (for example, `node` is missing), Claude Code treats that as non-blocking and the call goes through. The guard needs `node` on PATH.

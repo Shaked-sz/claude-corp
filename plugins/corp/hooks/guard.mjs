@@ -4,6 +4,7 @@
 // Exit 2 + stderr = deny (stderr becomes the reason Claude sees). Exit 0 = allow.
 import { appendFileSync, readFileSync } from 'node:fs';
 import { resolve, relative, isAbsolute } from 'node:path';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const ROSTER = {
@@ -16,9 +17,10 @@ const ROSTER = {
   'talent-lead': ['scout', 'web-scout'],
 };
 const WORKERS = ['scout', 'web-scout', 'builder'];
-// Review roles may write reports only under these folders. Scouts may not write at all.
-const WRITE_ROOTS = { 'qa-lead': ['docs', '.corp'], 'security-lead': ['docs', '.corp'] };
-const NO_WRITE = ['scout', 'web-scout'];
+// Review roles may write reports only under these project folders; scouts under none.
+// All three may also write throwaway files (probe scripts, mutation copies) in the OS temp dir.
+const WRITE_ROOTS = { 'qa-lead': ['docs', '.corp'], 'security-lead': ['docs', '.corp'], scout: [] };
+const NO_WRITE = ['web-scout'];
 // ponytail: regex screen, not a shell parser. Catches the common forms, including chained ones.
 const OUTWARD = [
   /\bgit\s+(push|commit)\b/,
@@ -32,6 +34,7 @@ const OUTWARD = [
 ];
 
 const bare = (name) => String(name ?? '').replace(/^corp:/, '');
+const within = (base, p) => { const r = relative(base, p); return r !== '' && !r.startsWith('..') && !isAbsolute(r); };
 
 export function decide(input) {
   const who = bare(input?.agent_type);
@@ -43,7 +46,11 @@ export function decide(input) {
   if (tool === 'Agent' || tool === 'Task') {
     const target = String(args.subagent_type ?? '');
     const allowed = ROSTER[who] ?? [];
-    if (target.startsWith('corp:') && allowed.includes(bare(target))) return null;
+    if (target.startsWith('corp:') && allowed.includes(bare(target))) {
+      return args.run_in_background === true
+        ? `${who}: dispatch workers with run_in_background: false. Your report is final, so a background worker's results would reach nobody. Send independent workers as several Agent calls in one message; they still run in parallel.`
+        : null;
+    }
     return allowed.length
       ? `${who} may dispatch only ${allowed.map((a) => 'corp:' + a).join(', ')}, not "${target}". Teams never dispatch each other: put it under NEEDS FROM OTHER TEAMS and the manager routes it.`
       : `${who} is a worker and may not dispatch agents. Return NEEDS LEAD instead.`;
@@ -54,10 +61,17 @@ export function decide(input) {
     const roots = WRITE_ROOTS[who];
     if (roots) {
       const cwd = input.cwd || process.cwd();
-      const rel = relative(cwd, resolve(cwd, String(args.file_path ?? args.notebook_path ?? '')));
-      const ok = rel && !rel.startsWith('..') && !isAbsolute(rel) &&
-        roots.some((r) => rel.split(/[\\/]/)[0].toLowerCase() === r);
-      if (!ok) return `${who} reviews and reports; it may write only under ${roots.join('/ or ')}/, not "${rel}". Fixes go back to Development through the manager.`;
+      const abs = resolve(cwd, String(args.file_path ?? args.notebook_path ?? ''));
+      const rel = relative(cwd, abs);
+      const inProject = rel === '' || within(cwd, abs);
+      // Inside the project: reports only. Outside it: throwaway scripts in the OS temp dir (scratchpads) only.
+      const ok = inProject
+        ? roots.some((r) => rel.split(/[\\/]/)[0].toLowerCase() === r)
+        : within(tmpdir(), abs);
+      if (!ok) {
+        const where = roots.length ? `under ${roots.join('/ or ')}/ in the project, or scratch files in the temp folder` : 'scratch files in the temp folder, never in the project';
+        return `${who} reviews and reports; it may write only ${where}, not "${abs}". Fixes go back to Development through the manager.`;
+      }
     }
     return null;
   }

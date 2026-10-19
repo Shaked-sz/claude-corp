@@ -1,4 +1,4 @@
-// Run: node --test plugins/corp/hooks/
+// Run: node --test plugins/corp/hooks/guard.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
@@ -23,8 +23,14 @@ test('rule 1: leads dispatch only their roster', () => {
   assert.match(call('scout', 'Agent', { subagent_type: 'corp:scout' }), /worker/);
 });
 
-test('rule 2: scouts never write; review roles write only under docs/ or .corp/', () => {
-  assert.match(call('corp:scout', 'Write', { file_path: 'docs/x.md' }), /read-only/);
+test('rule 1b: leads dispatch workers in the foreground only', () => {
+  assert.match(call('qa-lead', 'Agent', { subagent_type: 'corp:scout', run_in_background: true }), /run_in_background: false/);
+  assert.equal(call('qa-lead', 'Agent', { subagent_type: 'corp:scout', run_in_background: false }), null);
+  assert.equal(call(undefined, 'Agent', { subagent_type: 'corp:qa-lead', run_in_background: true }), null); // manager may background leads
+});
+
+test('rule 2: scouts never write in the project; review roles write only under docs/ or .corp/', () => {
+  assert.match(call('corp:scout', 'Write', { file_path: 'docs/x.md' }), /never in the project/);
   assert.match(call('web-scout', 'Edit', { file_path: 'a.js' }), /read-only/);
   assert.equal(call('qa-lead', 'Write', { file_path: 'docs/qa/report.md' }), null);
   assert.equal(call('security-lead', 'Write', { file_path: `${cwd}/.corp/sec.md` }), null);
@@ -55,4 +61,22 @@ test('CLI: deny exits 2 with reason, allow and malformed input exit 0', () => {
   assert.match(denied.stderr, /corp guard:/);
   assert.equal(run(JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'git push' } })).status, 0);
   assert.equal(run('not json').status, 0);
+});
+
+test('rule 2: review roles may write throwaway scripts in the OS temp dir, never product code', async () => {
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const scratch = join(tmpdir(), 'claude', 'session', 'scratchpad', 'mutate.mjs');
+  assert.equal(call('qa-lead', 'Write', { file_path: scratch }), null);
+  assert.equal(call('security-lead', 'Write', { file_path: scratch }), null);
+  const outside = process.platform === 'win32' ? 'C:\\Windows\\evil.txt' : '/etc/evil';
+  assert.match(call('qa-lead', 'Write', { file_path: outside }), /may write only/);
+  // A project that itself lives in temp: its source is still off limits, its docs/ is fine.
+  const proj = join(tmpdir(), 'proj');
+  const inTmp = (file_path) => decide({ agent_type: 'qa-lead', tool_name: 'Write', tool_input: { file_path }, cwd: proj });
+  assert.match(inTmp('src/a.js'), /may write only/);
+  assert.match(inTmp(join(proj, 'src', 'a.js')), /may write only/);
+  assert.equal(inTmp('docs/qa.md'), null);
+  assert.equal(call('scout', 'Write', { file_path: scratch }), null); // scouts: scratch only
+  assert.match(decide({ agent_type: 'scout', tool_name: 'Write', tool_input: { file_path: 'src/a.js' }, cwd: proj }), /never in the project/);
 });

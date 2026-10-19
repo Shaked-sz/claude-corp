@@ -57,6 +57,7 @@ claude --plugin-dir ./plugins/corp
 
 - `/corp:manage <goal>`: run any goal through the manager. Light tasks skip the teams. Medium and heavy tasks get a `.corp/board.md` in your project. Commit it or add `.corp/` to `.gitignore`, whichever you prefer. Run `/corp:manage` again after a crash or restart and it offers to resume.
 - `claude --agent corp:manager`: start a session with the manager as the main agent, then type your goal.
+- Headless (`claude -p "/corp:manage <goal>"`): set `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Otherwise the CLI stops background agents 10 minutes after the manager's last turn, and a long lead gets cut off.
 - `/corp:design-studio <brief>`: live design session (the manager opens this for you when needed).
 - `/corp:hire [team or gap]`: scout for new skills. Security vets each one, and you approve each install. Approved hires are recorded in `~/.claude/corp/registry.md`.
 
