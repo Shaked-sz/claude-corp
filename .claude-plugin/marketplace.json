@@ -1,6 +1,6 @@
 {
   "name": "claude-corp",
-  "owner": { "name": "marvisilsss" },
+  "owner": { "name": "Shaked-sz" },
   "description": "claude-corp: an AI development organization run by a manager agent.",
   "plugins": [
     {

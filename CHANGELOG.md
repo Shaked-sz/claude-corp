@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- License changed from MIT to **Apache-2.0**. Adds a NOTICE file; the copyright holder is Shaked-sz.
+
 ## 0.2.0 — 2026-10-19
 
 Hardening release. No new teams; the existing org is now bounded, resumable and enforced.

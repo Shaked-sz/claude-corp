@@ -2,9 +2,9 @@
   "name": "corp",
   "version": "0.2.0",
   "description": "An AI development organization: a manager agent staffs specialist teams (architecture, security, design/UX, planning, development, QA, talent) with junior/normal/senior levels, routes work between them, and verifies every result. A guard hook enforces each role's tools.",
-  "author": { "name": "marvisilsss" },
+  "author": { "name": "Shaked-sz" },
   "homepage": "https://github.com/Shaked-sz/claude-corp",
   "repository": "https://github.com/Shaked-sz/claude-corp",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": ["manager", "orchestration", "teams", "multi-agent", "swarm"]
 }
