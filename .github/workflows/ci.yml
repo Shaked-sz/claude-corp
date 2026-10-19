@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      evals:
+        description: Run the behaviour eval suite (uses model credits)
+        type: boolean
+        default: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install -g @anthropic-ai/claude-code
+      - run: claude plugin validate . --strict
+      - run: claude plugin validate plugins/corp --strict
+      - run: node --test plugins/corp/hooks/guard.test.mjs
+
+  evals:
+    if: github.event_name == 'workflow_dispatch' && inputs.evals
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Eval suite
+        working-directory: plugins/corp
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: >
+          claude plugin eval . --scaffold --trust-plugin --no-publish
+          --model claude-sonnet-5-5 --judge-model claude-sonnet-5-5
+          --threshold 0.8 --max-cost-usd 20 --json eval-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: plugins/corp/evals/results/

@@ -1,6 +1,6 @@
 # Org chart
 
-Each team has a **lead** (`corp:<team>-lead`) that plans and staffs a swarm of the shared workers `corp:scout` (read-only) and `corp:builder` (edits). User-approved additions live in `~/.claude/corp/registry.md`.
+Each team has a **lead** (`corp:<team>-lead`) that plans and staffs a swarm of the shared workers `corp:scout` (reads code, runs tests, no web), `corp:web-scout` (web research, no shell) and `corp:builder` (edits). The corp guard hook enforces which workers each lead may dispatch. User-approved additions live in `~/.claude/corp/registry.md`.
 
 ## Levels
 

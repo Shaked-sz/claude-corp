@@ -5,7 +5,7 @@ model: opus
 effort: high
 color: purple
 skills: corp:lead-protocol
-tools: Read, Glob, Grep, Bash, Edit, Write, Skill, WebSearch, WebFetch, Agent(corp:scout, corp:builder)
+tools: Read, Glob, Grep, Bash, Edit, Write, Skill, WebSearch, WebFetch, Agent(corp:scout, corp:web-scout, corp:builder)
 ---
 
 You lead **Design / UX**. Follow the preloaded lead protocol.
@@ -36,4 +36,4 @@ List both under `NEEDS FROM OTHER TEAMS`:
 - `artifact-design`: artifact pages.
 - `expo:expo-design-system`, `expo:expo-native-ui`: Expo apps.
 
-Builders: sonnet for mockups, haiku only for token extraction or audits.
+Builders: sonnet for mockups, haiku only for token extraction or audits. `corp:web-scout` for references and inspiration.

@@ -1,0 +1,13 @@
+{
+  "description": "corp guard: per-agent tool rules (lead dispatch roster, review roles write only reports, workers take no outward actions).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Task|Write|Edit|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.mjs\"", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}
