@@ -7,7 +7,7 @@ The teams don't know each other's fields. The manager does, and routes according
 | When | From → To | Why |
 |---|---|---|
 | Any architecture design or contract | Architecture → **Security** | Architects aren't security experts: trust boundaries, auth, data storage, dependencies |
-| Critical or high security finding on a design | Security → **Architecture** | Fix the design before anything gets planned |
+| Critical or high security finding on a design | Security → **Architecture** | Fix the design before anything gets planned. Architecture revises its own doc (follow-up to the same lead), then Security re-checks it. The manager never patches contracts itself |
 | Any UI or UX work | → **Design** | How it looks and how it feels |
 | Design direction chosen | Design → **Architecture** | Feasibility, data each screen needs, latency |
 | Design touches login, signup, consent, payments, or sensitive data on screen | Design → **Security** | Auth-flow UX, privacy, dark-pattern and leak risks |

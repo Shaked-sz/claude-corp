@@ -30,6 +30,8 @@ A heavy multi-tenant SaaS build on a scratch app exercised every team, across th
 - **The guard now denies a lead dispatching workers in the background.** The lead protocol already forbade it, and QA did it anyway.
 - **QA, Security and scouts may write throwaway files in the OS temp folder.** These are probe scripts and mutation-testing copies. Project files stay off limits. This removes a false denial that blocked QA's mutation testing. Scouts get the Write tool so the guard can see the path, instead of scouts writing through shell redirects.
 - **The manager replaces a team's board section on each update instead of appending,** so stale "Waiting on…" lines don't mislead a resumed run.
+- **Critical or high design findings always go back to Architecture** as a follow-up to the same lead. The manager no longer patches contracts on the board itself, which had left the design doc stale.
+- **`claude --agent corp:manager`:** the manager takes the goal from the conversation when the skill is loaded with no arguments.
 
 ### Known limits
 - The guard is a regex screen, not a shell parser. Unusual command forms can slip through, and the prose rules remain the second line.

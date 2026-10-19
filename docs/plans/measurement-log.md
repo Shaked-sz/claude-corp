@@ -7,7 +7,7 @@ Phase 0 and Phase 5 of [the hardening plan](2026-10-19-refactor-harden-corp-plug
 | Gate | Result | Evidence |
 |---|---|---|
 | G2a: nested dispatch, `claude -p` | **Pass** (2026-10-19) | Main session → `corp:planning-lead` (sonnet) → Agent call to `corp:builder`. The lead waited and reported in the lead-protocol format |
-| G2b: nested dispatch, `claude --agent corp:manager` | Not run yet | |
+| G2b: nested dispatch, `claude --agent corp:manager` | **Pass** (2026-10-19) | Pantry run below. The manager loaded `corp:manage` through the Skill tool, because `initialPrompt` isn't needed. Leads spawned builders, and the guard saw the main thread as `corp:manager` and left it unrestricted |
 | G2c: nested dispatch, desktop app | Not run yet | |
 | G3: hook sees the calling agent and can block | **Pass** (2026-10-19) | Inside a subagent `agent_type` arrives as `corp:planning-lead`. The guard denied planning-lead → `corp:builder` and blocked a builder's `git push origin HEAD`, in a scratch repo with no remote. Both denial messages reached the agent verbatim |
 | W7: `Agent(...)` list unenforced in subagents | **Confirmed** by the docs. Now enforced by the guard (G3 run) | |
@@ -46,6 +46,29 @@ Fixes:
 - **F3:** the guard denies background worker dispatch.
 - **F5:** heavy work gets an independent review by the manager; contract-amending fixes are re-checked against the original requirement; Security's abuse checklist now covers counters, key lengths and privilege overrides.
 - Also, board team sections are now replaced on update rather than appended.
+
+## `--agent` mode test: "Pantry" (2026-10-19, Claude-run)
+
+A scratch recipe API with planted holes: a spoofable `x-user` header that also becomes a file path, no body limit, and error messages leaked on 500s. The heavy goal was photo uploads stored on disk, public share links with no login, revoke, and a share page. Run as `claude -p --agent corp:manager` with the README's headless env var. **$23.06, one session, 54/54 tests, board done, fix rounds 1/3.**
+
+- **What every team did:**
+  - **Architecture** found the path traversal and the EXIF/GPS leak unprompted.
+  - **Security** blocked the design on 2 highs: a header spoof on all interfaces, and backslash or `%2e%2e` paths that route `/s/` to owner routes. Both were verified on this machine, along with a case-insensitive file mix-up on Windows.
+  - **Design** produced 3 options and the recommended one was adopted.
+  - **Planning** traced every requirement and finding, and wrote exact code for the junior tasks.
+  - **Dev** followed the plan's levels: Sonnet for the security boundary, Haiku for transcribed tasks.
+  - **QA** ran a real headless browser (16 screenshots), mutation-tested (35/36 caught) and probed planted EXIF data.
+  - **Security** approved the code.
+  - **The manager** ran the claude-corps independent review on the heavy diff (the F5 rule working), then did 1 fix round.
+- **Held:**
+  - All leads were dispatched in the foreground, under the "user is away" rule.
+  - Only the manager wrote the board.
+  - Every lead wrote only its own lane.
+  - Review roles kept scratch files in temp (the F2 and F4 fix working).
+  - Zero guard denials.
+- **Deviations found and fixed:**
+  - **F6:** after Security's design highs, the manager wrote the fix into the board contracts itself and never sent it back to Architecture. The design doc stayed "proposed", without H1/H2, and Planning had to reconcile two sources. Now: high design findings always go back to Architecture as a follow-up, and the manager never patches contracts itself.
+  - **F7:** in `--agent` mode the manager calls the skill with no arguments, and the playbook said "empty goal → ask and stop". It carried on this time only by luck. Now an empty `$ARGUMENTS` means "take the goal from the conversation".
 
 ## Real runs (3–5, on your own repos)
 
