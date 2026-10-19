@@ -75,3 +75,7 @@ cd plugins/corp && claude plugin eval . --scaffold --trust-plugin --ablation non
 ```
 
 Evals use model credits, which is why CI runs them only on manual dispatch. See `CHANGELOG.md` for what changed in each release.
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE). You may use, modify and share corp, including in your own projects. Copies and derived works must keep the copyright and NOTICE file, and must say what was changed.
