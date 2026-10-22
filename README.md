@@ -63,7 +63,7 @@ claude --plugin-dir ./plugins/corp
 
 ## Works best with
 
-`taste-skill`, `agentic-sdlc`, `ponytail`, and the official `claude-security` plugin. Any missing skill is reported as a gap rather than breaking the flow.
+[Emil Kowalski's skills](https://github.com/emilkowalski/skills) (the Design team's default kit), `taste-skill`, `agentic-sdlc`, `ponytail`, and the official `claude-security` plugin. Any missing skill is reported as a gap rather than breaking the flow.
 
 ## Develop
 

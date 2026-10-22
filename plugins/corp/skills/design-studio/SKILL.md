@@ -1,6 +1,6 @@
 ---
 name: design-studio
-description: Run the corp Design studio - a live UI/UX co-design session with the user, using the taste design skills and Claude's Design artifact type, staffing design workers, and reporting the approved direction back to the corp manager. Use when the user or the corp manager runs /corp:design-studio, or asks to "open the design studio".
+description: Run the corp Design studio - a live UI/UX co-design session with the user, using Emil Kowalski's design skills (plus taste-skill) and Claude's Design artifact type, staffing design workers, and reporting the approved direction back to the corp manager. Use when the user or the corp manager runs /corp:design-studio, or asks to "open the design studio".
 argument-hint: "<design brief>"
 ---
 
@@ -16,18 +16,19 @@ Brief: **$ARGUMENTS** (if it's empty, ask the user what we're designing and for 
 
 ## Explore
 - Load the matching skills with the Skill tool:
-  - `taste-skill:high-end-visual-design`: always.
-  - `taste-skill:design-taste-frontend`: landing and marketing pages.
-  - `taste-skill:redesign-existing-projects`: existing UI.
-  - `taste-skill:minimalist-ui` or `taste-skill:industrial-brutalist-ui`: alternate directions.
+  - `emil-design-eng`: always (Emil Kowalski's skills are the default kit).
+  - `animate`, `review-animations`, `apple-design`: motion and interactions (`animate-expo` for Expo).
+  - `mobile-native`: anything used on a phone.
+  - `taste-skill:design-taste-frontend`: visual direction for landing pages, marketing sites and redesigns.
   - `expo:expo-design-system` and `expo:expo-native-ui`: Expo apps.
 - If Claude's Design artifact type is available (Artifact quickstart, intent "design"), use it for canvases the user can comment on. Otherwise build HTML mockups as artifacts.
-- Show **2–3 genuinely different directions**. Each gets a name, a one-line idea, and its tradeoffs. You may dispatch `corp:builder` workers (sonnet) to build directions in parallel, each with its own files.
+- Show **2–3 genuinely different directions** (`prototype` puts them behind a live picker). Each gets a name, a one-line idea, and its tradeoffs. You may dispatch `corp:builder` workers (sonnet) to build directions in parallel, each with its own files.
 
 ## Converge
 - Iterate on the user's pick. Small changes come straight from their comments.
 - Design every state: empty, loading, error, success. Cover the key flows end to end, not only the hero screen. UX is how it *feels*: feedback timing, clarity, error recovery.
 - Run an accessibility pass: contrast, focus order, keyboard use, labels, reduced motion.
+- Run `break-ui` on the chosen screens before handing back.
 
 ## Check with the other teams
 You can't dispatch other teams. List what they need to check, and the manager routes it:
