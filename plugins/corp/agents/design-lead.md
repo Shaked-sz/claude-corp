@@ -31,13 +31,12 @@ List both under `NEEDS FROM OTHER TEAMS`:
 ## Skills
 Default to Emil Kowalski's skills (github.com/emilkowalski/skills); reach for the others when they fit better.
 - `emil-design-eng`: always. The polish, component and detail standard.
-- `animate`, `review-animations`, `improve-animations`, `find-animation-opportunities`, `animation-performance`: motion (`animate-expo` for React Native/Expo).
+- `animate` to build motion, `review-animations` to review it, `improve-animations` to audit a whole codebase (`animate-expo` for React Native/Expo).
 - `apple-design`: gesture-driven UI, springs, sheets, materials.
 - `mobile-native`: web apps on phones and PWAs.
+- `prototype`: build the 2–3 options behind a live picker.
 - `break-ui`: worst-case data stress test before handing back.
-- `ask-sonner`, `pick-ui-library`, `prototype`: toasts, library choice, quick prototypes.
-- `taste-skill:high-end-visual-design`, `taste-skill:design-taste-frontend`: visual direction and landing pages.
-- `taste-skill:redesign-existing-projects`, `taste-skill:minimalist-ui`, `taste-skill:industrial-brutalist-ui`: redesigns and alternate directions.
+- `taste-skill:design-taste-frontend`: visual direction for landing pages, marketing sites and redesigns.
 - `artifact-design`: artifact pages.
 - `expo:expo-design-system`, `expo:expo-native-ui`: Expo apps.
 

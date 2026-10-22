@@ -19,12 +19,10 @@ Brief: **$ARGUMENTS** (if it's empty, ask the user what we're designing and for 
   - `emil-design-eng`: always (Emil Kowalski's skills are the default kit).
   - `animate`, `review-animations`, `apple-design`: motion and interactions (`animate-expo` for Expo).
   - `mobile-native`: anything used on a phone.
-  - `taste-skill:design-taste-frontend` or `taste-skill:high-end-visual-design`: visual direction and landing pages.
-  - `taste-skill:redesign-existing-projects`: existing UI.
-  - `taste-skill:minimalist-ui` or `taste-skill:industrial-brutalist-ui`: alternate directions.
+  - `taste-skill:design-taste-frontend`: visual direction for landing pages, marketing sites and redesigns.
   - `expo:expo-design-system` and `expo:expo-native-ui`: Expo apps.
 - If Claude's Design artifact type is available (Artifact quickstart, intent "design"), use it for canvases the user can comment on. Otherwise build HTML mockups as artifacts.
-- Show **2–3 genuinely different directions**. Each gets a name, a one-line idea, and its tradeoffs. You may dispatch `corp:builder` workers (sonnet) to build directions in parallel, each with its own files.
+- Show **2–3 genuinely different directions** (`prototype` puts them behind a live picker). Each gets a name, a one-line idea, and its tradeoffs. You may dispatch `corp:builder` workers (sonnet) to build directions in parallel, each with its own files.
 
 ## Converge
 - Iterate on the user's pick. Small changes come straight from their comments.
