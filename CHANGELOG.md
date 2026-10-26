@@ -3,6 +3,7 @@
 ## Unreleased
 
 - License changed from MIT to **Apache-2.0**. Adds a NOTICE file; the copyright holder is Shaked-sz.
+- **Design team kit.** The design lead and `/corp:design-studio` now default to [emilkowalski/skills](https://github.com/emilkowalski/skills) (`emil-design-eng`, the animation skills, `apple-design`, `mobile-native`, `prototype`, `break-ui`). taste-skill stays through `design-taste-frontend` for landing pages and redesigns. The Design list is cut from 20 skills to 11, dropping overlapping and narrow ones.
 
 ## 0.2.0 — 2026-10-19
 
