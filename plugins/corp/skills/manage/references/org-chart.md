@@ -19,7 +19,7 @@ The manager picks each lead's level (sonnet or opus). Leads pick each worker's l
 | Architecture | `corp:architecture-lead` | system design, contracts, schema, ADRs | `agentic-sdlc:planning-from-spec`, `ponytail:ponytail`, `ponytail:ponytail-audit`, `simplify` |
 | Security | `corp:security-lead` | threat models, design + diff review, privacy, supply chain, vetting third-party skills | `security-review`, `claude-security:claude-security` (if installed), `code-review` |
 | Design / UX | `corp:design-lead` + Design studio session (`/corp:design-studio`) | visual design, UX flows, accessibility, design tokens | Emil Kowalski's skills (`emil-design-eng`, `animate`, `review-animations`, `apple-design`, `mobile-native`, `prototype`, `break-ui`), `taste-skill:design-taste-frontend`, `artifact-design`, Claude's Design artifact type, `expo:expo-design-system` |
-| Planning | `corp:planning-lead` | the integrated plan and task specs | `agentic-sdlc:planning-from-spec`, `agentic-sdlc:generating-tasks`, `agentic-sdlc:reviewing-plan` |
+| Planning | the manager, with the `corp:plan` skill | the integrated plan and task specs | `agentic-sdlc:planning-from-spec`, `agentic-sdlc:generating-tasks`, `agentic-sdlc:reviewing-plan` |
 | Development | `corp:dev-lead` | implementation, integration, tests | `agentic-sdlc:implementing-tasks`, `ponytail:ponytail`, `agentic-sdlc:testing-pytest`, `agentic-sdlc:testing-vitest`, `run` |
 | QA | `corp:qa-lead` | independent verification against the plan | `agentic-sdlc:reviewing-code`, `code-review`, `run` |
 | Talent (HR/CA) | `corp:talent-lead` (`/corp:hire`) | finding and ranking new skills, plugins, MCP servers | WebSearch, WebFetch, GitHub; Security vets every finalist |

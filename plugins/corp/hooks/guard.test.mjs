@@ -17,7 +17,7 @@ test('rule 1: leads dispatch only their roster', () => {
   assert.equal(call('corp:dev-lead', 'Agent', { subagent_type: 'corp:builder' }), null);
   assert.equal(call('dev-lead', 'Agent', { subagent_type: 'corp:scout' }), null);
   assert.match(call('dev-lead', 'Agent', { subagent_type: 'corp:security-lead' }), /may dispatch only/);
-  assert.match(call('planning-lead', 'Agent', { subagent_type: 'corp:builder' }), /may dispatch only/);
+  assert.match(call('qa-lead', 'Agent', { subagent_type: 'corp:builder' }), /may dispatch only/);
   assert.match(call('qa-lead', 'Task', { subagent_type: 'general-purpose' }), /may dispatch only/);
   assert.match(call('dev-lead', 'Agent', { subagent_type: 'builder' }), /may dispatch only/); // must be namespaced
   assert.match(call('scout', 'Agent', { subagent_type: 'corp:scout' }), /worker/);

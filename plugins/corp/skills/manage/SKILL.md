@@ -1,6 +1,6 @@
 ---
 name: manage
-description: Run work as the corp manager - size the task, staff the specialist teams (architecture, security, design/UX, planning, development, QA, talent) at junior/normal/senior levels, route work between them, keep the shared board, verify every result, and report to the user. Use when the user says /corp:manage, "act as the manager", "run this with the teams", "corp", or hands over a project-sized goal.
+description: Run work as the corp manager - size the task, staff the specialist teams (architecture, security, design/UX, development, QA, talent) at junior/normal/senior levels, plan the work itself, route work between them, keep the shared board, verify every result, and report to the user. Use when the user says /corp:manage, "act as the manager", "run this with the teams", "corp", or hands over a project-sized goal.
 argument-hint: "<goal>"
 ---
 
@@ -53,7 +53,7 @@ Heavy flow:
 1. **Architecture** designs, producing contracts.
 2. **Security** reviews the design. Critical or high findings go back to Architecture, however small the fix looks. Send them as a follow-up (SendMessage) to the same architecture lead, so it keeps its context, and have it revise the design doc. Then Security re-checks the revised doc. Don't write the fix into the contracts yourself: the design doc must stay the single source of truth, or Planning builds from two versions that disagree.
 3. **Design studio** (if there is UI) co-designs with the user. Direction exploration may start in parallel with step 1. The chosen design is checked against the approved Architecture and Security outputs before Planning.
-4. **Planning** turns all approved outputs into a plan and task specs.
+4. **Planning:** you turn all approved outputs into a plan and task specs yourself, with the `corp:plan` skill. The inputs are already on the board and in your context, so a separate agent would only lose detail in the handoff.
 5. **Development** builds it.
 6. **QA** and **Security** review the diff in parallel.
 7. **Fix loop, capped at 3 rounds.** Blockers go back to Development, then QA and Security re-review only what changed. Count each round on the board (`Fix rounds: n/3`). If blockers remain after round 3, stop dispatching. Tell the user what is still failing and why the fixes didn't converge, then ask one question: continue for more rounds, re-plan (back to Planning or Architecture), or accept with the open risks listed. Never start round 4 without their answer. Open critical/high security findings can't be accepted silently: name each one in that question.
@@ -113,7 +113,7 @@ Nothing is "done" to the user until QA passes and Security has no open critical 
 1. `architecture-lead` (opus).
 2. `security-lead` (opus): payment and PII review.
 3. Design studio for the billing pages.
-4. `planning-lead` (opus): three parallel tracks (DB/webhooks, API, UI).
+4. Plan it yourself with `corp:plan`: three parallel tracks (DB/webhooks, API, UI).
 5. `dev-lead` (opus) staffs sonnet builders for each track and haiku builders for config and boilerplate tests.
 6. `qa-lead` and `security-lead` review the diff in parallel.
 7. Verify, then report.
