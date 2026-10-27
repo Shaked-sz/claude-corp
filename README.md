@@ -10,7 +10,7 @@ A Claude Code plugin that turns Claude into the manager of an AI development org
 | Architecture | `corp:architecture-lead` | Design, contracts, schema, ADRs |
 | Security | `corp:security-lead` | Threat models, design and diff review, privacy, supply chain, vetting new skills |
 | Design / UX | `corp:design-lead` + `/corp:design-studio` | Visual design and UX. Live co-design with you happens in a separate session |
-| Planning | `corp:planning-lead` | Combines all team outputs into one plan and task specs |
+| Planning | the manager, with `corp:plan` | Combines all team outputs into one plan and task specs |
 | Development | `corp:dev-lead` | Builds the plan with parallel builders |
 | QA | `corp:qa-lead` | Checks the work against the plan independently |
 | Talent (HR) | `corp:talent-lead` / `/corp:hire` | Finds new skills, plugins and MCP servers. You approve every install |

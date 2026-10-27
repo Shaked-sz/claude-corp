@@ -12,7 +12,6 @@ const ROSTER = {
   'design-lead': ['scout', 'web-scout', 'builder'],
   'security-lead': ['scout', 'web-scout'],
   'dev-lead': ['scout', 'builder'],
-  'planning-lead': ['scout'],
   'qa-lead': ['scout'],
   'talent-lead': ['scout', 'web-scout'],
 };
