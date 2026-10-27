@@ -4,6 +4,7 @@
 
 - License changed from MIT to **Apache-2.0**. Adds a NOTICE file; the copyright holder is Shaked-sz.
 - **Design team kit.** The design lead and `/corp:design-studio` now default to [emilkowalski/skills](https://github.com/emilkowalski/skills) (`emil-design-eng`, the animation skills, `apple-design`, `mobile-native`, `prototype`, `break-ui`). taste-skill stays through `design-taste-frontend` for landing pages and redesigns. The Design list is cut from 20 skills to 11, dropping overlapping and narrow ones.
+- **Planning is a skill, not an agent.** `corp:planning-lead` is folded into `corp:plan`, which the manager runs itself at the Planning step. On a 10-scenario A/B suite (`plugins/corp/evals-fold/`, 2 runs each, Sonnet 5.5) plan quality was the same (0.82 both), each run cost $0.38 instead of $1.47, took 1.2 min instead of 5.8, and plans were about 4× shorter. The baseline's planner ran on Opus; the folded one on the manager's model.
 
 ## 0.2.0 — 2026-10-19
 
